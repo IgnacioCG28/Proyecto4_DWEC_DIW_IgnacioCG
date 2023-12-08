@@ -1,3 +1,8 @@
+/**
+ *  Autor: Ignacio Carmona González
+ *  Github: https://github.com/IgnacioCG28/Proyecto4_DWEC_DIW_IgnacioCG.git
+ */
+
 import { Product } from "./product.js";
 import { ProductManager } from "./productManager.js";
 import { sounds } from "./sounds.js";
