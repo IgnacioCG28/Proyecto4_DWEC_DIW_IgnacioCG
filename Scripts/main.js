@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", (sounds) );
 
 const productManager = new ProductManager();
 
-initializeInventory();
-
 document.getElementById("product-form-events").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -74,130 +72,108 @@ document.getElementById("body-table").addEventListener("click", function (event)
 
 const searchButton = document.getElementById("search-button");
 searchButton.addEventListener("click", function () {
-    const searchTerm = document.getElementById("search-product").value.toLowerCase();
-    const tableRows = document.querySelectorAll("#inventory-table-events tbody tr");
-    const matchingRows = Array.from(tableRows).filter(row => {
-        const productName = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
-        return productName.includes(searchTerm);
-    });
+  const searchTerm = document.getElementById("search-product").value.toLowerCase();
+  const tableRows = document.querySelectorAll("#inventory-table-events tbody tr");
+  const matchingRows = Array.from(tableRows).filter(row => {
+    const productName = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
+    const searchWords = searchTerm.split(" ");
+    return searchWords.every(word => productName.includes(word));
+  });
 
-    tableRows.forEach(row => {
-        row.style.display = "none";
-    });
+  tableRows.forEach(row => {
+    row.style.display = "none";
+  });
 
-    matchingRows.forEach(row => {
-        row.style.display = "";
-    });
+  matchingRows.forEach(row => {
+    row.style.display = "";
+  });
 });
 
 const searchInput = document.getElementById("search-product");
 searchInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        const searchTerm = searchInput.value.toLowerCase();
-        const tableRows = document.querySelectorAll("#inventory-table-events tbody tr");
-        const matchingRows = Array.from(tableRows).filter(row => {
-            const productName = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
-            return productName.includes(searchTerm);
-        });
+  if (event.key === "Enter") {
+    const searchTerm = searchInput.value.toLowerCase();
+    const tableRows = document.querySelectorAll("#inventory-table-events tbody tr");
+    const matchingRows = Array.from(tableRows).filter(row => {
+      const productName = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
+      const searchWords = searchTerm.split(" ");
+      return searchWords.every(word => productName.includes(word));
+    });
 
-        if (searchTerm === "") {
-            tableRows.forEach(row => {
-                row.style.display = "";
-            });
-        } else {
-            tableRows.forEach(row => {
-                row.style.display = "none";
-            });
+    if (searchTerm === "") {
+      tableRows.forEach(row => {
+        row.style.display = "";
+      });
+    } else {
+      tableRows.forEach(row => {
+        row.style.display = "none";
+      });
 
-            matchingRows.forEach(row => {
-                row.style.display = "";
-            });
-        }
+      matchingRows.forEach(row => {
+        row.style.display = "";
+      });
     }
+  }
 });
 
+
 function updateInventoryTable() {
-    const tableBody = document.getElementById("body-table");
-    tableBody.innerHTML = "";
+  const tableBody = document.getElementById("body-table");
+  tableBody.innerHTML = "";
 
-    const products = productManager.listProducts();
+  const products = productManager.listProducts();
 
-    products.forEach((product) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${product.nombre}</td>
-            <td>${product.cantidad}</td>
-            <td>${product.precio}</td>
-            <td>
-                <button class="edit-button" data-id="${product.id}">Editar</button>
-                <button class="delete-button" data-id="${product.id}">Eliminar</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+  let totalPrice = 0;
+  let totalQty = 0;
+
+  products.forEach((product) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${product.nombre}</td>
+      <td>${product.cantidad}</td>
+      <td>${product.precio}</td>
+      <td>
+        <button class="edit-button" data-id="${product.id}">Editar</button>
+        <button class="delete-button" data-id="${product.id}">Eliminar</button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+
+    totalPrice += product.cantidad * product.precio;
+    totalQty += product.cantidad;
+  });
+
+  const TotalPrice = document.getElementById("total-price");
+  TotalPrice.innerHTML = totalPrice + "€";
+
+  const TotalQty = document.getElementById("total-products");
+  TotalQty.innerHTML = totalQty;
 }
 
-
-//  Estos productos siempre estarán en el localStorage, no se pueden borrar 
-//  porque al actualizar la página se añaden otra vez los datos, pero los añadidos nuevos si se pueden.
-function initializeInventory() {
-    let list;
-    if (!localStorage.getItem("productData")) {
-        list = [
-            new Product(1, "AR-15", 100, 1500),
-            new Product(2, "M24 Sniper Rifle", 75, 2500),
-            new Product(3, "Remington 870 Shotgun", 80, 1200),
-            new Product(4, "MP5 Submachine Gun", 120, 1800),
-            new Product(5, "RPG-7 Rocket Launcher", 10, 5000),
-            new Product(6, "M32 Grenade Launcher", 15, 3000),
-            new Product(7, "Glock 17 Pistol", 200, 800),
-            new Product(8, "Bulletproof Vest", 50, 500),
-            new Product(9, "Karambit Knife", 150, 300),
-            new Product(10, "Taser X26", 100, 400),
-            new Product(11, "M67 Fragmentation Grenade", 50, 200),
-            new Product(12, "C4 Explosive", 20, 1000),
-            new Product(13, "Combat Knife", 100, 200),
-            new Product(14, "Stun Gun", 80, 150),
-        ];
-        list.forEach((product) => productManager.addProduct(product));
-        updateInventoryTable();
-    } else {
-        const storedData = JSON.parse(localStorage.getItem("productData"));
-        storedData.forEach((productData) => {
-            const product = new Product(
-                productData.id,
-                productData.nombre,
-                productData.cantidad,
-                productData.precio
-            );
-            productManager.addProduct(product);
-        });
-        updateInventoryTable();
+// Check if there are products in localStorage
+if (localStorage.getItem("products")) {
+  const storedProducts = JSON.parse(localStorage.getItem("products"));
+  storedProducts.forEach((product) => {
+    // Check if the product already exists in productManager
+    if (!productManager.getProductById(product.id)) {
+      productManager.addProduct(new Product(product.nombre, product.cantidad, product.precio));
     }
+  });
 }
 
+updateInventoryTable();
 
-const TPrice = () => {
-    let TPrice = 0;
-    let precioUnitario = 0;
-    productManager.listProducts().forEach((producto) => {
-        precioUnitario += producto.cantidad * producto.precio;
-        TPrice = precioUnitario;
-    });
+// Check if there are products in localStorage
+if (localStorage.getItem("products")) {
+  const storedProducts = JSON.parse(localStorage.getItem("products"));
+  storedProducts.forEach((product) => {
+    if (product.id && product.nombre && product.cantidad && product.precio) {
+      // Check if the product already exists in productManager
+      if (!productManager.getProductById(product.id)) {
+        productManager.addProduct(new Product(product.nombre, product.cantidad, product.precio));
+      }
+    }
+  });
+}
 
-    return TPrice;
-};
-
-const TQty = () => {
-    let TQty = 0;
-    productManager.listProducts().forEach((producto) => {
-        TQty += producto.cantidad;
-    });
-
-    return TQty;
-};
-
-const TotalPrice = document.getElementById("total-price");
-TotalPrice.innerHTML = TPrice() + "€";
-const TotalQty = document.getElementById("total-products");
-TotalQty.innerHTML = TQty();
+updateInventoryTable();

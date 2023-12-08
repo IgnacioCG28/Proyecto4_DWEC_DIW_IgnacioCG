@@ -49,4 +49,8 @@ export class ProductManager extends LocalStorage {
   toString() {
     return this.#products.map((product) => product.toString()).join("\n");
   }
+
+  getProductById(id) {
+    return this.#products.find((product) => product.id === id);
+  }
 }
