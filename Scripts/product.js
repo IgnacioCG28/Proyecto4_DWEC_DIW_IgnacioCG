@@ -1,4 +1,3 @@
-// bucle iterativo para meterlo en el local storage.
 export class Product {
   #id;
   #nombre;
