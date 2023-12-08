@@ -3,21 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestión de Inventario: Halloween</title>
+    <title>Gestión de Inventario POO</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/Styles/Styles.css" />
   </head>
 
   <body>
     <h1>Gestión de Inventario</h1>
+    <div class="search-div">
+      <input type="text" id="search-product" placeholder="Buscar por Nombre" />
 
-    <input
-      type="text"
-      id="search-product"
-      placeholder="Buscar producto por nombre"
-    />
-
-    <button id="search-button">Buscar Producto</button>
-
+      <button id="search-button">Buscar Producto</button>
+    </div>
     <form id="product-form-events" class="product-form-styles">
       <label for="product-name">Nombre: </label>
       <input type="text" id="product-name" required />
@@ -47,6 +44,14 @@
         </tr>
       </tfoot>
     </table>
+    <audio id="background-audio" controls style="display: none">
+      <source src="/Assets/Sound/Cave_Sound00.mp3" type="audio/mpeg" />
+      <source src="/Assets/Sound/Cave_Sound01.mp3" type="audio/mpeg" />
+      <source src="/Assets/Sound/Cave_Sound02.mp3" type="audio/mpeg" />
+      <source src="/Assets/Sound/Cave_Sound03.mp3" type="audio/mpeg" />
+      <source src="/Assets/Sound/Cave_Sound04.mp3" type="audio/mpeg" />
+      <source src="/Assets/Sound/Cave_Sound05.mp3" type="audio/mpeg" />
+    </audio>
     <script src="scripts/main.js" type="module"></script>
   </body>
 </html>
