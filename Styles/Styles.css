@@ -142,12 +142,7 @@ td {
 }
 
 ::placeholder {
-  color: #fff;
-  text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px var(--green),
-    0 0 15px var(--green); /* Efecto de resplandor */
-  -webkit-animation: glow 2s ease-in-out infinite alternate;
-  -moz-animation: glow 2s ease-in-out infinite alternate;
-  animation: glow 2s ease-in-out infinite alternate;
+  color: white;
 }
 
 .search-input {
@@ -182,24 +177,23 @@ td {
 /*Efecto glow*/
 
 .glow {
-  color: #fff;
-  text-align: center;
-  -webkit-animation: glow 2s ease-in-out infinite alternate;
-  -moz-animation: glow 2s ease-in-out infinite alternate;
-  animation: glow 2s ease-in-out infinite alternate;
+  animation: glowAnimation 2s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.3), 0 0 20px rgba(0, 255, 0, 0.6), 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
-@keyframes glow {
-  from {
-    text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 5px var(--green),
-      0 0 15px var(--green);
+@keyframes glowAnimation {
+  0% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.3);
   }
-  to {
-    text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 5px var(--green),
-      0 0 6px var(--green);
+  50% {
+    text-shadow: 0 0 20px rgba(0, 255, 0, 0.6), 0 0 20px rgba(0, 255, 0, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.3);
   }
 }
 
+/*Efecto typewriter*/
 .typewriter h1 {
   overflow: hidden;
   border-right: 0.15em solid var(--green);
@@ -307,3 +301,5 @@ td {
     box-shadow: 0 5px 15px rgb(9, 110, 204);
   }
 }
+
+
