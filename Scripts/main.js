@@ -131,7 +131,7 @@ function updateInventoryTable() {
     row.innerHTML = `
       <td>${product.nombre}</td>
       <td>${product.cantidad}</td>
-      <td>${product.precio}</td>
+      <td>${product.precio}€</td>
       <td>
         <button class="edit-button" data-id="${product.id}">Editar</button>
         <button class="delete-button" data-id="${product.id}">Eliminar</button>
@@ -150,11 +150,9 @@ function updateInventoryTable() {
   TotalQty.innerHTML = totalQty;
 }
 
-// Check if there are products in localStorage
 if (localStorage.getItem("products")) {
   const storedProducts = JSON.parse(localStorage.getItem("products"));
   storedProducts.forEach((product) => {
-    // Check if the product already exists in productManager
     if (!productManager.getProductById(product.id)) {
       productManager.addProduct(new Product(product.nombre, product.cantidad, product.precio));
     }
@@ -163,12 +161,10 @@ if (localStorage.getItem("products")) {
 
 updateInventoryTable();
 
-// Check if there are products in localStorage
 if (localStorage.getItem("products")) {
   const storedProducts = JSON.parse(localStorage.getItem("products"));
   storedProducts.forEach((product) => {
     if (product.id && product.nombre && product.cantidad && product.precio) {
-      // Check if the product already exists in productManager
       if (!productManager.getProductById(product.id)) {
         productManager.addProduct(new Product(product.nombre, product.cantidad, product.precio));
       }
@@ -176,4 +172,10 @@ if (localStorage.getItem("products")) {
   });
 }
 
+if (localStorage.getItem("products")) {
+  const storedProducts = JSON.parse(localStorage.getItem("products"));
+  if (storedProducts.length === 0) {
+    localStorage.clear();
+  }
+}
 updateInventoryTable();
