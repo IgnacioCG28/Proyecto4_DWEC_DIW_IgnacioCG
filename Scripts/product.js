@@ -36,6 +36,12 @@ export class Product {
     this.#precio = precio;
   }
 
+  toString() {
+    return `ID: ${this.#id} Nombre: ${this.#nombre} Cantidad: ${
+      this.#cantidad
+    } Precio: ${this.#precio}`;
+  }
+
   showProduct() {
     console.log(
       `ID: ${this.#id} Nombre: ${this.#nombre} Cantidad: ${

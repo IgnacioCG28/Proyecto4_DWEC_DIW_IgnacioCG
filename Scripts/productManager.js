@@ -23,19 +23,6 @@ export class ProductManager extends LocalStorage {
     this.saveProducts();
   }
 
-  searchProductInTable(productName) {
-    const tableRows = document.querySelectorAll("table tbody tr");
-    tableRows.forEach((row) => {
-      const nameCell = row.querySelector(".product-name");
-      if (
-        nameCell.textContent.toLowerCase().includes(productName.toLowerCase())
-      ) {
-        row.classList.add("highlighted");
-      } else {
-        row.classList.remove("highlighted");
-      }
-    });
-  }
 
   updateProductById(id, updatedProduct) {
     const index = this.#products.findIndex((product) => product.id === id);
@@ -57,5 +44,9 @@ export class ProductManager extends LocalStorage {
 
   saveProducts() {
     LocalStorage.setData(this.#productsKey, this.#products);
+  }
+
+  toString() {
+    return this.#products.map((product) => product.toString()).join("\n");
   }
 }

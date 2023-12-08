@@ -96,14 +96,8 @@
     text-align: center;
   }
   
-  /*Boton salir*/
-  .text {
-    text-decoration: none;
-    position: absolute;
-    top: 10px;
-  }
-  
-  .inventory-form-style {
+
+  .product-form-styles{
     margin: 25px;
   }
   
@@ -122,6 +116,10 @@
     box-shadow: 0 5px 15px red;
   }
   
+  .special{
+    color: var(--green);
+    background-color: red;
+  }
   
   /*Boton de editar*/
   .edit-button {
@@ -138,12 +136,6 @@
     box-shadow: 0 5px 15px rgb(9, 110, 204);
   }
   
-  /*Buscardor*/
-  .buscador{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-  }
   
   ::placeholder {
     color: #fff;

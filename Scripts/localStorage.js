@@ -7,5 +7,22 @@ export class LocalStorage {
     static setData(key, data) {   
         localStorage.setItem(key, JSON.stringify(data));
     }
+
+    static removeData(key) {
+        localStorage.removeItem(key);
+    }
+
+    static clearData() {
+        localStorage.clear();
+    }
+
+    static checkData(key) {
+        return localStorage.getItem(key) !== null;
+    }
+
+    static checkDataLength(key) {
+        return localStorage.getItem(key).length;
+    }
+
 }
 
